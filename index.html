@@ -80,10 +80,12 @@
         <option value="92大村">92大村</option>
         <option value="94木村">94木村</option>
         <option value="97濵田">97濵田</option>
+
         <option value="98祝園">98祝園</option>
     </select><br><br>
 
     <button onclick="generateQRCode()">QRコード生成</button>
+    <button id="saveButton" style="display:none;" onclick="saveQRCode()">QRコードを保存</button>
 
     <h2>生成されたQRコード:</h2>
     <img id="qrcode" alt="QR Code will appear here" style="margin-top: 20px;">
@@ -102,7 +104,19 @@
 
             const qrData = `${company},${name},${guests},${contact}`;
             const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(qrData)}&size=200x200`;
+
             document.getElementById('qrcode').src = qrUrl;
+            document.getElementById('saveButton').style.display = 'inline'; // ボタンを表示
+        }
+
+        function saveQRCode() {
+            const qrCodeImg = document.getElementById('qrcode');
+            const link = document.createElement('a');
+            link.href = qrCodeImg.src;
+            link.download = 'QRCode.png'; // 保存するファイル名
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
     </script>
 </body>
